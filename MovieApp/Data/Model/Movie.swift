@@ -9,7 +9,7 @@
 import ObjectMapper
 import RealmSwift
 
-struct Movie: Object, Mappable {
+final class Movie: Object, Mappable {
     @objc dynamic var id = 0
     @objc dynamic var title = ""
     @objc dynamic var voteAverage = 0.0
@@ -20,7 +20,7 @@ struct Movie: Object, Mappable {
         self.init()
     }
     
-    mutating func mapping(map: Map) {
+    func mapping(map: Map) {
         id <- map["id"]
         title <- map["title"]
         voteAverage <- map["vote_average"]

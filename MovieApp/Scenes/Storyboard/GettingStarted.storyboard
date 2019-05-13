@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tUv-2Z-UiZ">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Getting Started View Controller-->
+        <scene sceneID="mDp-So-JOh">
+            <objects>
+                <viewController storyboardIdentifier="GettingStartedViewController" id="tUv-2Z-UiZ" customClass="GettingStartedViewController" customModule="MovieApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wjf-1J-6sd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nvj-Zj-Z6h">
+                                <rect key="frame" x="16" y="116" width="382" height="557"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="339-0f-mDJ">
+                                    <size key="itemSize" width="114" height="63"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to Movie App" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="47B-AR-B0v">
+                                <rect key="frame" x="58.666666666666657" y="50" width="296.66666666666674" height="36"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qxt-L3-war">
+                                <rect key="frame" x="5" y="683" width="404" height="48"/>
+                                <color key="backgroundColor" red="0.18118855357170105" green="0.20336517691612244" blue="0.2274552583694458" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Pvd-wc-ZCU" firstAttribute="bottom" secondItem="Qxt-L3-war" secondAttribute="bottom" constant="5" id="1JA-ub-LqZ"/>
+                            <constraint firstItem="47B-AR-B0v" firstAttribute="top" secondItem="Pvd-wc-ZCU" secondAttribute="top" constant="30" id="1bG-Ok-tsp"/>
+                            <constraint firstItem="Pvd-wc-ZCU" firstAttribute="trailing" secondItem="nvj-Zj-Z6h" secondAttribute="trailing" constant="16" id="Asc-Cy-GPK"/>
+                            <constraint firstItem="Qxt-L3-war" firstAttribute="top" secondItem="nvj-Zj-Z6h" secondAttribute="bottom" constant="10" id="GYf-Vf-Mfo"/>
+                            <constraint firstItem="47B-AR-B0v" firstAttribute="centerX" secondItem="Pvd-wc-ZCU" secondAttribute="centerX" id="KZz-hy-bAl"/>
+                            <constraint firstItem="Pvd-wc-ZCU" firstAttribute="trailing" secondItem="Qxt-L3-war" secondAttribute="trailing" constant="5" id="bdv-0e-pr6"/>
+                            <constraint firstItem="nvj-Zj-Z6h" firstAttribute="top" secondItem="47B-AR-B0v" secondAttribute="bottom" constant="30" id="cM7-RJ-FOF"/>
+                            <constraint firstItem="Qxt-L3-war" firstAttribute="leading" secondItem="Pvd-wc-ZCU" secondAttribute="leading" constant="5" id="gof-Gp-su4"/>
+                            <constraint firstItem="nvj-Zj-Z6h" firstAttribute="leading" secondItem="Pvd-wc-ZCU" secondAttribute="leading" constant="16" id="tXa-Mq-1OM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Pvd-wc-ZCU"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dis-hz-ULL"/>
+                    <connections>
+                        <outlet property="doneButton" destination="Qxt-L3-war" id="Gkg-lr-E0E"/>
+                        <outlet property="genreListCollectionView" destination="nvj-Zj-Z6h" id="NHN-2v-GVE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DXa-7Y-Bpa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="176.80000000000001" y="-2.9556650246305418"/>
+        </scene>
+    </scenes>
+</document>

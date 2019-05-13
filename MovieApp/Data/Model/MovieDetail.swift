@@ -16,7 +16,7 @@ struct MovieDetail: Mappable {
     var posterPath = ""
     var backDropPath = ""
     
-    required init?(map: Map) {
+    init?(map: Map) {
     }
     
     mutating func mapping(map: Map) {

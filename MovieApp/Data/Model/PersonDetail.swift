@@ -17,7 +17,7 @@ struct PersonDetail: Mappable {
     var biography = ""
     var placeOfBirth = ""
     
-    required init?(map: Map) {
+    init?(map: Map) {
     }
     
     mutating func mapping(map: Map) {
