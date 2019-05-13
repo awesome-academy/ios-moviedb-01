@@ -45,7 +45,7 @@ playground.xcworkspace
 Pods/
 
 #API Key
-Movie/Utils/APIKey.swift
+MovieApp/Utils/APIs.swift
 
 # CocoaPods
 #

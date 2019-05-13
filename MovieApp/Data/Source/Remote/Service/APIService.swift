@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import ObjectMapper
-import RxSwift
 
 struct APIService {    
     static let share = APIService()
@@ -21,7 +20,6 @@ struct APIService {
         configuration.timeoutIntervalForRequest = 30
         configuration.timeoutIntervalForResource = 30
         alamofireManager = Alamofire.SessionManager(configuration: configuration)
-        alamofireManager.adapter = CustomRequestAdapter()
     }
     
     func request<T: Mappable>(input: BaseRequest) ->  Observable<T> {
