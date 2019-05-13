@@ -4,7 +4,11 @@
 ============
 
 Project: MovieDB
-Document:https://docs.google.com/spreadsheets/d/1Tvhgvw5rVoUnHyzXE-pIbcYVGxWa_0d9O40PkSFFZpE
+
+Document :https://docs.google.com/spreadsheets/d/1Tvhgvw5rVoUnHyzXE-pIbcYVGxWa_0d9O40PkSFFZpE
+
 Member: Phan Đình Văn & Nguyễn Nam Khánh
+
 Start date: 13/05/2018
+
 End date: 21/05/2019
