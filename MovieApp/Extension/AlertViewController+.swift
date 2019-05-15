@@ -48,4 +48,13 @@ extension AlertViewController where Self: UIViewController {
     func showErrorAlert(message: String?) {
         showAlertView(title: "Error", message: message, cancelButton: "OK")
     }
+    
+    var errorBinding: Binder<Error> {
+        return Binder(self, binding: { (viewController, error) in
+            guard let error = error as? BaseError else {
+               return
+            }
+            viewController.showErrorAlert(message: error.errorMessage)
+        })
+    }
 }

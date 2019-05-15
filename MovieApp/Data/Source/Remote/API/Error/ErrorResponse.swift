@@ -10,15 +10,15 @@ import Foundation
 import ObjectMapper
 
 final class ErrorResponse: Mappable {
-    var documentationUrl: String?
-    var message: String?
+    var statusCode = 0
+    var statusMessage = ""
     
     required init?(map: Map) {
         mapping(map: map)
     }
     
     func mapping(map: Map) {
-        documentationUrl <- map["documentation_url"]
-        message <- map["message"]
+        statusCode <- map["status_code"]
+        statusMessage <- map["status_message"]
     }
 }

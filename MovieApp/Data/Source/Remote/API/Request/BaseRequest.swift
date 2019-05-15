@@ -29,8 +29,9 @@ class BaseRequest: NSObject {
         super.init()
         self.url = url
         self.requestType = requestType
-        let apiKey = ["api_key": APIs.apiKey]
-        self.body = body + apiKey
+        var body = body ?? [:]
+        body["api_key"] = APIs.apiKey
+        self.body = body
     }
     
     var encoding: ParameterEncoding {

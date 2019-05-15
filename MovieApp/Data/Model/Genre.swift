@@ -9,7 +9,7 @@
 import ObjectMapper
 import RealmSwift
 
-struct Genre: Object, Mappable {
+final class Genre: Object, Mappable {
     @objc dynamic var id = 0
     @objc dynamic var name = ""
     
@@ -17,7 +17,7 @@ struct Genre: Object, Mappable {
         self.init()
     }
     
-    mutating func mapping(map: Map) {
+    func mapping(map: Map) {
         id <- map["id"]
         name <- map["name"]
     }

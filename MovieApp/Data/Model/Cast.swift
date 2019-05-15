@@ -13,7 +13,7 @@ struct Cast: Mappable {
     var name = ""
     var profilePath = ""
     
-    required init?(map: Map) {
+    init?(map: Map) {
     }
     
     mutating func mapping(map: Map) {
