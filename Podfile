@@ -16,10 +16,12 @@ target 'MovieApp' do
   pod 'RxCocoa', '~> 4.5.0'
   pod 'RealmSwift'
   pod 'SVProgressHUD'
+  pod 'MGArchitecture'
 
   target 'MovieAppTests' do
     inherit! :search_paths
     # Pods for testing
+    pod 'RxBlocking'
   end
 
   target 'MovieAppUITests' do

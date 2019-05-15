@@ -1,6 +1,10 @@
 PODS:
   - Alamofire (4.8.2)
   - Kingfisher (5.4.0)
+  - MGArchitecture (0.4.3):
+    - RxAtomic (~> 4.4)
+    - RxCocoa (~> 4.4)
+    - RxSwift (~> 4.4)
   - ObjectMapper (3.4.2)
   - Realm (3.15.0):
     - Realm/Headers (= 3.15.0)
@@ -12,6 +16,9 @@ PODS:
     - Reusable/View (= 4.1.0)
   - Reusable/Storyboard (4.1.0)
   - Reusable/View (4.1.0)
+  - RxAtomic (4.4.2)
+  - RxBlocking (4.5.0):
+    - RxSwift (>= 4.4.2, ~> 4.4)
   - RxCocoa (4.5.0):
     - RxSwift (>= 4.4.2, ~> 4.4)
   - RxSwift (4.5.0)
@@ -22,9 +29,11 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Kingfisher
+  - MGArchitecture
   - ObjectMapper
   - RealmSwift
   - Reusable
+  - RxBlocking
   - RxCocoa (~> 4.5.0)
   - RxSwift (~> 4.5.0)
   - SVProgressHUD
@@ -35,10 +44,13 @@ SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
     - Kingfisher
+    - MGArchitecture
     - ObjectMapper
     - Realm
     - RealmSwift
     - Reusable
+    - RxAtomic
+    - RxBlocking
     - RxCocoa
     - RxSwift
     - SVProgressHUD
@@ -48,16 +60,19 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Kingfisher: 9c8f2cc6710334e06f32ba2b45e77707d5e2f0c9
+  MGArchitecture: a68f881bfa6bd80310d31d81aeefb07a12bf3685
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   Realm: 9b834e1be6062f544805252c812348872dc5d4ed
   RealmSwift: 8a41886f8ab6efef9eb8df97de2f2bb911561a79
   Reusable: 82be188f29d96dc5eff0db7b2393bcc08d2cdd5b
+  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
+  RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
 
-PODFILE CHECKSUM: ad306b9d7abf092078c13103eb4dea9ed7282441
+PODFILE CHECKSUM: 356bcd7ab2844f776807e50aa04f6eef8892f649
 
-COCOAPODS: 1.6.1
+COCOAPODS: 1.6.0.beta.2

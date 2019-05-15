@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-struct Cast: Mappable {
+struct Cast: Mappable, Then {
     var personId = 0
     var name = ""
     var profilePath = ""
@@ -16,9 +16,12 @@ struct Cast: Mappable {
     init?(map: Map) {
     }
     
+    init() {
+    }
+    
     mutating func mapping(map: Map) {
         personId <- map["id"]
         name <- map["name"]
-        profilePath <- map["profilePath"]
+        profilePath <- map["profile_path"]
     }
 }

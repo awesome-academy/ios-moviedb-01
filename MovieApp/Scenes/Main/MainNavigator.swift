@@ -13,17 +13,21 @@ protocol MainNavigator {
 }
 
 final class DefaultMainNavigator: MainNavigator {
-    private let navigationController: UINavigationController?
+    private unowned let navigationController: UINavigationController
+    private unowned let assembler: Assembler
     
-    init(navigationController: UINavigationController?) {
+    init(assembler: Assembler, navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.assembler = assembler
     }
     
     func toSearch() {
     }
     
     func toDetailMovie(movie: Movie) {
-        print("id: \(movie.id)")
+        let vc: MovieDetailViewController = assembler.resolve(navigationController: navigationController,
+                                                              movie: movie)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func toExtensionHome() {

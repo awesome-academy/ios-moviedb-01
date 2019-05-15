@@ -8,18 +8,16 @@
 
 import UIKit
 
-final class GettingStartedViewController: UIViewController, AlertViewController {
+final class GettingStartedViewController: UIViewController, AlertViewController, BindableType {
     @IBOutlet private weak var genreListCollectionView: UICollectionView!
     @IBOutlet private weak var doneButton: UIButton!
     
     private let disposeBag = DisposeBag()
-    private let genreRepository: GenreReponsitory = GenreReponsitoryImpl(api: .share)
     var viewModel: GettingStartedViewModel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configView()
-        bindViewModel()
     }
     
     private func configView() {
@@ -43,9 +41,6 @@ final class GettingStartedViewController: UIViewController, AlertViewController 
     }
     
     func bindViewModel() {
-        let navigator = DefaultGettingStartedNavigator(viewController: self)
-        viewModel = GettingStartedViewModel(genreRepository: genreRepository, navigator: navigator)
-        
         let input = GettingStartedViewModel.Input(loadTrigger: Driver.just(()),
                                                   selectTrigger: genreListCollectionView.rx.itemSelected.asDriver(),
                                                   doneButtonTrigger: doneButton.rx.tap.asDriver())

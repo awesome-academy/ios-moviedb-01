@@ -18,4 +18,5 @@ enum URLs {
     static let upcomingMovieApi = movieApi + "/upcoming"
     static let popularMovieApi = movieApi + "/popular"
     static let posterApi = "https://image.tmdb.org/t/p/w300"
+    static let youtubeEmbed = "https://www.youtube.com/embed"
 }

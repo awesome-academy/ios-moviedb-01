@@ -8,7 +8,7 @@
 
 import ObjectMapper
 
-struct MovieDetail: Mappable {
+struct MovieDetail: Mappable, Then {
     var id = 0
     var title = ""
     var voteAverage = 0.0
@@ -17,6 +17,9 @@ struct MovieDetail: Mappable {
     var backDropPath = ""
     
     init?(map: Map) {
+    }
+    
+    init() {
     }
     
     mutating func mapping(map: Map) {

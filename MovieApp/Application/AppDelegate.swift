@@ -7,13 +7,25 @@
 //
 
 import UIKit
+import RxSwift
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
+    var assembler: Assembler = DefaultAssembler()
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        return true
+    func applicationDidFinishLaunching(_ application: UIApplication) {
+        bindViewModel()
+    }
+    
+    private func bindViewModel() {
+        guard let window = window else { return }
+        let vm: AppViewModel = assembler.resolve(window: window)
+        let input = AppViewModel.Input(loadTrigger: Driver.just(()))
+        let output = vm.transform(input: input)
+        output.toScreen
+            .drive()
+            .dispose()
     }
 }
 

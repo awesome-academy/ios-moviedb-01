@@ -12,9 +12,14 @@ import RealmSwift
 final class Genre: Object, Mappable {
     @objc dynamic var id = 0
     @objc dynamic var name = ""
+    @objc dynamic var selected = false
     
     required convenience init?(map: Map) {
         self.init()
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
     }
     
     func mapping(map: Map) {
