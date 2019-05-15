@@ -11,7 +11,6 @@ import Alamofire
 
 final class GenreListRequest: BaseRequest {
     required init() {
-        let body: [String: Any]  = [:]
-        super.init(url: URLs.genreListApi, requestType: .get, body: body)
+        super.init(url: URLs.genreListApi, requestType: .get, body: [:])
     }
 }

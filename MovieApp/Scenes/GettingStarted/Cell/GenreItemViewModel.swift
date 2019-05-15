@@ -7,5 +7,13 @@
 //
 
 struct GenreItemViewModel {
-    let genreTitle = ""
+    let genre: Genre
+    
+    var title: String {
+        return genre.name
+    }
+    
+    init(genre: Genre) {
+        self.genre = genre
+    }
 }

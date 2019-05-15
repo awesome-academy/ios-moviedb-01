@@ -29,7 +29,7 @@ final class GettingStartedGenreCell: UICollectionViewCell, NibReusable {
     }
     
     func bind(viewModel: GenreItemViewModel) {
-        genreTitleLabel.text = viewModel.genreTitle
+        genreTitleLabel.text = viewModel.title
     }
     
     func updateCell(genre: Genre?) {

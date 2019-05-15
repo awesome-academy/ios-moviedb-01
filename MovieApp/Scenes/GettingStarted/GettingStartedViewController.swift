@@ -10,7 +10,7 @@ import UIKit
 
 final class GettingStartedViewController: UIViewController, AlertViewController {
     @IBOutlet private weak var genreListCollectionView: UICollectionView!
-    @IBOutlet weak var doneButton: UIButton!
+    @IBOutlet private weak var doneButton: UIButton!
     
     private let disposeBag = DisposeBag()
     private let genreRepository: GenreReponsitory = GenreReponsitoryImpl(api: .share)
@@ -45,6 +45,7 @@ final class GettingStartedViewController: UIViewController, AlertViewController 
     func bindViewModel() {
         let navigator = DefaultGettingStartedNavigator(viewController: self)
         viewModel = GettingStartedViewModel(genreRepository: genreRepository, navigator: navigator)
+        
         let input = GettingStartedViewModel.Input(loadTrigger: Driver.just(()),
                                                   selectTrigger: genreListCollectionView.rx.itemSelected.asDriver(),
                                                   doneButtonTrigger: doneButton.rx.tap.asDriver())
@@ -53,19 +54,13 @@ final class GettingStartedViewController: UIViewController, AlertViewController 
             .drive(genreListCollectionView.rx.items) { collectionView, index, genre in
                 let indexPath = IndexPath(row: index, section: 0)
                 let cell: GettingStartedGenreCell = collectionView.dequeueReusableCell(for: indexPath)
-                cell.updateCell(genre: genre)
+                cell.bind(viewModel: GenreItemViewModel(genre: genre))
                 return cell
             }
             .disposed(by: disposeBag)
         
         output.selected
-            .asObservable()
-            .subscribe(onNext: { indexPath in
-                self.genreListCollectionView.deselectItem(at: indexPath, animated: false)
-                if let cell = self.genreListCollectionView.cellForItem(at: indexPath) as? GettingStartedGenreCell {
-                    cell.toggleState()
-                }
-            })
+            .drive(selectCellBinding)
             .disposed(by: disposeBag)
         
         output.doneButton
@@ -85,18 +80,13 @@ final class GettingStartedViewController: UIViewController, AlertViewController 
             .disposed(by: disposeBag)
     }
     
-    var errorBinding: Binder<Error> {
-        return Binder(self, binding: { (viewController, error) in
-            if let error = error as? BaseError {
-                viewController.showErrorAlert(message: error.errorMessage)
+    var selectCellBinding: Binder<IndexPath> {
+        return Binder(self.genreListCollectionView) { (collectionView, indexPath) in
+            collectionView.deselectItem(at: indexPath, animated: false)
+            if let cell = self.genreListCollectionView.cellForItem(at: indexPath) as? GettingStartedGenreCell {
+                cell.toggleState()
             }
-            else if let error = error as? Errors {
-                viewController.showErrorAlert(message: error.errorMessage)
-            }
-            else {
-                return
-            }
-        })
+        }
     }
 }
 

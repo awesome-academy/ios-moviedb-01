@@ -11,7 +11,7 @@ import RealmSwift
 final class GettingStartedViewModel: ViewModelType {
     private let genreRepository: GenreReponsitory
     private let navigator: GettingStartedNavigator
-    private var selectedGenres = Variable<[Genre]>([])
+    private var selectedGenres = BehaviorRelay<[Genre]>(value: [])
     
     init(genreRepository: GenreReponsitory, navigator: GettingStartedNavigator) {
         self.genreRepository = genreRepository
@@ -34,11 +34,13 @@ final class GettingStartedViewModel: ViewModelType {
             .withLatestFrom(genres) { indexPath, genres -> IndexPath in
                let seleted = genres[indexPath.row]
                 if self.selectedGenres.value.contains(seleted) {
-                    self.selectedGenres.value.removeAll {
-                        $0 == seleted
-                    }
+                    var value = self.selectedGenres.value
+                    value.removeAll { $0.name == seleted.name }
+                    self.selectedGenres.accept(value)
                 } else {
-                    self.selectedGenres.value.append(seleted)
+                    var value = self.selectedGenres.value
+                    value.append(seleted)
+                    self.selectedGenres.accept(value)
                 }
                 return indexPath
             }
@@ -50,21 +52,24 @@ final class GettingStartedViewModel: ViewModelType {
             }
         
         let doneButton = input.doneButtonTrigger
-            .asObservable()
-            .flatMap { _ -> Observable<Void> in
+            .flatMap { _ -> Driver<Void> in
                 do {
-                    let realm = try Realm()
+                    var realmConfig = Realm.Configuration.defaultConfiguration
+                    if let fileURL = realmConfig.fileURL {
+                        realmConfig.fileURL = fileURL.deletingLastPathComponent().appendingPathComponent(RealmConstansts.favoriteGenres)
+                    }
+                    let realm = try Realm(configuration: realmConfig)
                     try realm.write {
                         realm.add(self.selectedGenres.value, update: false)
                     }
                     self.navigator.toMain()
-                    return Observable.just(())
+                    return Driver.just(())
                 } catch {
                     return Observable.error(Errors.cantInitRealm)
+                            .trackError(errorTracker)
+                            .asDriver(onErrorJustReturn: ())
                 }
             }
-            .trackError(errorTracker)
-            .asDriver(onErrorJustReturn: ())
         
         return Output(genres: genres,
                       selected: selected,

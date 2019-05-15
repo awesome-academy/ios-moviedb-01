@@ -47,17 +47,17 @@ struct APIService {
                                 }
                             } else {
                                 if let object = Mapper<ErrorResponse>().map(JSONObject: value) {
-                                    observer.onError(BaseError.apiFailure(error: object))
+                                    observer.onError(NetworkError.apiFailure(error: object))
                                 } else {
-                                    observer.onError(BaseError.httpError(httpCode: statusCode))
+                                    observer.onError(NetworkError.httpError(httpCode: statusCode))
                                 }
                             }
                         } else {
-                            observer.on(.error(BaseError.unexpectedError))
+                            observer.on(.error(NetworkError.unexpectedError))
                         }
                         observer.onCompleted()
                     case .failure:
-                        observer.onError(BaseError.networkError)
+                        observer.onError(NetworkError.networkError)
                         observer.onCompleted()
                     }                    
                 }

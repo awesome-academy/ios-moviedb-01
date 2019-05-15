@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum BaseError: Error {    
+enum NetworkError: BaseError, Error {
     case networkError
     case httpError(httpCode: Int)
     case unexpectedError
@@ -22,7 +22,7 @@ enum BaseError: Error {
             return getHttpErrorMessage(httpCode: code)
         case .apiFailure(let error):
             if let error = error {
-                return error.message
+                return error.statusMessage
             }
             return "Error"
         default:

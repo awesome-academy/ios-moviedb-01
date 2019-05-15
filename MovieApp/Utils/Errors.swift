@@ -6,7 +6,7 @@
 //  Copyright © 2019 nguyen.nam.khanh. All rights reserved.
 //
 
-enum Errors: Error {
+enum Errors: BaseError, Error {
     case cantInitRealm
     
     var errorMessage: String? {
