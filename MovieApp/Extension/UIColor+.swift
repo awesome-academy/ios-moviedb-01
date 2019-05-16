@@ -25,4 +25,8 @@ extension UIColor {
     
     static let gradientGettingStartedBackground = [UIColor(rgb: 0x6C6C6C).cgColor, UIColor(rgb: 0x000000).cgColor]
     static let gettingStartedButton = UIColor(rgb: 0x49525D)
+    
+    public class var lightColor: UIColor {
+        return UIColor(rgb: 0xAAAAAA)
+    }
 }

@@ -21,5 +21,9 @@ final class DefaultGettingStartedNavigator: GettingStartedNavigator {
     }
     
     func toMain() {
+        let vc = Storyboards.main.instantiateInitialViewController()
+        if let app = UIApplication.shared.delegate as? AppDelegate, let window = app.window {
+            window.rootViewController = vc            
+        }
     }
 }
