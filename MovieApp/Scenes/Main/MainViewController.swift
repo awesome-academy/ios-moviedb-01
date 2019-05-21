@@ -7,7 +7,7 @@
 //
 
 final class MainViewController: UIViewController {
-    enum LayoutOptions {
+    private enum LayoutOptions {
         static let movieDisplayHeight = 350
         static let movieDisplayWidth = 200
         static let offSet: CGFloat = 300
@@ -22,8 +22,8 @@ final class MainViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var viewModel: MainViewModel!
     private let movieRepository: MovieRepository  = MovieRepositoryImpl(api: APIService.share)
-    let popularLoadMoreTrigger = PublishSubject<Void>()
-    let upcommingLoadMoreTrigger = PublishSubject<Void>()
+    private let popularLoadMoreTrigger = PublishSubject<Void>()
+    private let upcommingLoadMoreTrigger = PublishSubject<Void>()
         
     override func viewDidLoad() {
         super.viewDidLoad()

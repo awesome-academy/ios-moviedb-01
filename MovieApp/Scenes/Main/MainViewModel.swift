@@ -24,10 +24,15 @@ final class MainViewModel: ViewModelType {
     func transform(input: MainViewModel.Input) -> MainViewModel.Output {
         let errorTracker = ErrorTracker()
         let activityIndicator = ActivityIndicator()
+        let popularMoviesDriver = popularTotalMovies.asDriver()
+        let upcommingMoviesDriver = upcommingTotalMovies.asDriver()
+        let popularPageDriver = popularPage.asDriver()
+        let upcommingPageDriver = upcommingPage.asDriver()
 
         let loadPopular = input.loaded
-            .flatMapLatest { _ in
-                return self.movieRepository.getPopularMovie(input: PopularMovieRequest(page: self.popularPage.value))
+            .withLatestFrom(popularPageDriver)
+            .flatMapLatest { page -> Driver<[Movie]> in
+                return self.movieRepository.getPopularMovie(input: PopularMovieRequest(page: page))
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
@@ -38,8 +43,9 @@ final class MainViewModel: ViewModelType {
             .mapToVoid()
         
         let loadUpcomming = input.loaded
-            .flatMapLatest { _ in
-                return self.movieRepository.getUpcommingMovie(input: UpcommingMovieRequest(page: self.upcommingPage.value))
+            .withLatestFrom(upcommingPageDriver)
+            .flatMapLatest { page -> Driver<[Movie]> in
+                return self.movieRepository.getUpcommingMovie(input: UpcommingMovieRequest(page: page))
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
@@ -50,7 +56,7 @@ final class MainViewModel: ViewModelType {
             .mapToVoid()
 
         let popularSelected = input.popularSelectTrigger
-            .withLatestFrom(popularTotalMovies.asDriver()) { indexPath, movies in
+            .withLatestFrom(popularMoviesDriver) { indexPath, movies in
                 return movies[indexPath.row]
             }
             .do(onNext: { movie in
@@ -59,7 +65,7 @@ final class MainViewModel: ViewModelType {
             .mapToVoid()
         
         let upcommingSelected = input.upcommingSelectTrigger
-            .withLatestFrom(upcommingTotalMovies.asDriver()) { indexPath, movies in
+            .withLatestFrom(upcommingMoviesDriver) { indexPath, movies in
                 return movies[indexPath.row]
             }
             .do(onNext: { movie in
@@ -75,7 +81,8 @@ final class MainViewModel: ViewModelType {
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriver(onErrorJustReturn: [])
-            }.do(onNext: { movies in
+            }
+            .do(onNext: { movies in
                 var current = self.popularTotalMovies.value
                 current += movies
                 self.popularTotalMovies.accept(current)
@@ -91,7 +98,8 @@ final class MainViewModel: ViewModelType {
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriver(onErrorJustReturn: [])
-            }.do(onNext: { movies in
+            }
+            .do(onNext: { movies in
                 var current = self.upcommingTotalMovies.value
                 current += movies
                 self.upcommingTotalMovies.accept(current)
@@ -108,8 +116,8 @@ final class MainViewModel: ViewModelType {
             .mapToVoid()
         
         return Output(error: errorTracker.asDriver(),
-                      popularMovies: popularTotalMovies.asDriver(),
-                      upcommingMovies: upcommingTotalMovies.asDriver(),
+                      popularMovies: popularMoviesDriver,
+                      upcommingMovies: upcommingMoviesDriver,
                       indicator: activityIndicator.asDriver(),
                       searchAction: searchAction,
                       homeAction: homeExtensionAction,
