@@ -8,11 +8,14 @@
 
 enum Errors: BaseError, Error {
     case cantInitRealm
+    case catchError(message: String)
     
     var errorMessage: String? {
         switch self {
         case .cantInitRealm:
             return "Failed to init Realm Database."
+        case .catchError(let message):
+            return message
         }
     }
 }

@@ -7,23 +7,24 @@
 //
 
 import UIKit
-import RealmSwift
 
 protocol GettingStartedNavigator {
     func toMain()
 }
 
 final class DefaultGettingStartedNavigator: GettingStartedNavigator {
-    private let viewController: UIViewController?
+    private unowned let viewController: UIViewController
+    private unowned let assembler: Assembler
     
-    init(viewController: UIViewController?) {
+    init(assembler: Assembler, viewController: UIViewController) {
         self.viewController = viewController
+        self.assembler = assembler
     }
     
     func toMain() {
-        let vc = Storyboards.main.instantiateInitialViewController()
-        if let app = UIApplication.shared.delegate as? AppDelegate, let window = app.window {
-            window.rootViewController = vc            
-        }
+        let nav = UINavigationController()
+        let vc: MainViewController = assembler.resolve(navigationController: nav)
+        nav.pushViewController(vc, animated: true)
+        viewController.present(nav, animated: false, completion: nil)
     }
 }

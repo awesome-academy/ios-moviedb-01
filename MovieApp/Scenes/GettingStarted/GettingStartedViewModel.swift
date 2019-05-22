@@ -9,12 +9,12 @@
 import RealmSwift
 
 final class GettingStartedViewModel: ViewModelType {
-    private let genreRepository: GenreReponsitory
+    private let useCase: GettingStartedUseCase
     private let navigator: GettingStartedNavigator
     private var selectedGenres = BehaviorRelay<[Genre]>(value: [])
     
-    init(genreRepository: GenreReponsitory, navigator: GettingStartedNavigator) {
-        self.genreRepository = genreRepository
+    init(navigator: GettingStartedNavigator, useCase: GettingStartedUseCase) {
+        self.useCase = useCase
         self.navigator = navigator
     }
     
@@ -24,7 +24,7 @@ final class GettingStartedViewModel: ViewModelType {
         
         let genres = input.loadTrigger
             .flatMapLatest { _ in
-                return self.genreRepository.getGenreList(input: GenreListRequest())
+                return self.useCase.getGenreList()
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
@@ -52,24 +52,18 @@ final class GettingStartedViewModel: ViewModelType {
             }
         
         let doneButton = input.doneButtonTrigger
-            .flatMap { _ -> Driver<Void> in
-                do {
-                    var realmConfig = Realm.Configuration.defaultConfiguration
-                    if let fileURL = realmConfig.fileURL {
-                        realmConfig.fileURL = fileURL.deletingLastPathComponent().appendingPathComponent(RealmConstansts.favoriteGenres)
-                    }
-                    let realm = try Realm(configuration: realmConfig)
-                    try realm.write {
-                        realm.add(self.selectedGenres.value, update: false)
-                    }
-                    self.navigator.toMain()
-                    return Driver.just(())
-                } catch {
-                    return Observable.error(Errors.cantInitRealm)
-                            .trackError(errorTracker)
-                            .asDriver(onErrorJustReturn: ())
+            .withLatestFrom(selectedGenres.asDriver())
+            .flatMap { genres -> Driver<Void> in
+                genres.forEach {
+                    $0.selected = true
                 }
+                return self.useCase.saveObjects(objects: genres)
+                    .trackError(errorTracker)
+                    .asDriverOnErrorJustComplete()
             }
+            .do(onNext: { _ in
+                self.navigator.toMain()
+            })
         
         return Output(genres: genres,
                       selected: selected,

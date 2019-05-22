@@ -6,7 +6,7 @@
 //  Copyright © 2019 nguyen.nam.khanh. All rights reserved.
 //
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, AlertViewController, BindableType {
     private enum LayoutOptions {
         static let movieDisplayHeight = 350
         static let movieDisplayWidth = 200
@@ -20,15 +20,23 @@ final class MainViewController: UIViewController {
     @IBOutlet private weak var upcommingCollectionView: UICollectionView!
     
     private let disposeBag = DisposeBag()
-    private var viewModel: MainViewModel!
-    private let movieRepository: MovieRepository  = MovieRepositoryImpl(api: APIService.share)
+    var viewModel: MainViewModel!
     private let popularLoadMoreTrigger = PublishSubject<Void>()
     private let upcommingLoadMoreTrigger = PublishSubject<Void>()
         
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
     private func configureView() {
@@ -47,9 +55,6 @@ final class MainViewController: UIViewController {
     }
     
     func bindViewModel() {
-        let navigator = DefaultMainNavigator(navigationController: self.navigationController)
-        viewModel =  MainViewModel(movieRepository: movieRepository, navigator: navigator)
-        
         let input =  MainViewModel.Input(popularLoadMoreTrigger: popularLoadMoreTrigger.asDriverOnErrorJustComplete(),
                                          upcommingLoadMoreTrigger: upcommingLoadMoreTrigger.asDriverOnErrorJustComplete(),
                                          popularSelectTrigger: collectionView.rx.itemSelected.asDriver(),
@@ -62,7 +67,7 @@ final class MainViewController: UIViewController {
             .drive(collectionView.rx.items) { cv, index, movie in                
                 let indexPath = IndexPath(row: index, section: 0)
                 let cell: MovieDisplayCell = cv.dequeueReusableCell(for: indexPath)
-                cell.setContent(movie: movie)
+                cell.bind(viewModel: MovieDisplayItemViewModel(movie: movie))
                 return cell
             }
             .disposed(by: disposeBag)
@@ -71,13 +76,17 @@ final class MainViewController: UIViewController {
             .drive(upcommingCollectionView.rx.items) { cv, index, movie in
                 let indexPath = IndexPath(row: index, section: 0)
                 let cell: MovieDisplayCell = cv.dequeueReusableCell(for: indexPath)
-                cell.setContent(movie: movie)
+                cell.bind(viewModel: MovieDisplayItemViewModel(movie: movie))
                 return cell
             }
             .disposed(by: disposeBag)
         
         output.indicator
             .drive(SVProgressHUD.rx.isAnimating)
+            .disposed(by: disposeBag)
+        
+        output.error
+            .drive(errorBinding)
             .disposed(by: disposeBag)
         
         output.searchAction
@@ -116,7 +125,7 @@ final class MainViewController: UIViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let bottomEdge = scrollView.contentOffset.x + scrollView.frame.size.width
             if (bottomEdge + LayoutOptions.offSet >= scrollView.contentSize.width) {
-                scrollView == collectionView ? popularLoadMoreTrigger.onNext() : upcommingLoadMoreTrigger.onNext()
+                scrollView == collectionView ? popularLoadMoreTrigger.onNext(()) : upcommingLoadMoreTrigger.onNext(())
             }
     }
 }

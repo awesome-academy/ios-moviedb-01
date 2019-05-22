@@ -15,9 +15,14 @@ final class Movie: Object, Mappable {
     @objc dynamic var voteAverage = 0.0
     @objc dynamic var posterPath = ""
     @objc dynamic var releaseDate = ""
+    @objc dynamic var liked = false
     
     required convenience init?(map: Map) {
         self.init()
+    }
+    
+    override static func primaryKey() -> String? {
+        return "id"
     }
     
     func mapping(map: Map) {

@@ -32,10 +32,6 @@ final class GettingStartedGenreCell: UICollectionViewCell, NibReusable {
         genreTitleLabel.text = viewModel.title
     }
     
-    func updateCell(genre: Genre?) {
-        genreTitleLabel.text = genre?.name
-    }
-    
     func toggleState() {
         self.do {
             $0.backgroundColor = $0.backgroundColor == .clear ? .gray : .clear

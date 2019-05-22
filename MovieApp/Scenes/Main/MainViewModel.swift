@@ -10,14 +10,14 @@ import RealmSwift
 
 final class MainViewModel: ViewModelType {
     private let navigator: MainNavigator
-    private let movieRepository: MovieRepository
+    private let useCase: MainUseCase
     private let popularTotalMovies = BehaviorRelay<[Movie]>(value: [])
     private let upcommingTotalMovies = BehaviorRelay<[Movie]>(value: [])
     private var upcommingPage = BehaviorRelay<Int>(value: 1)
     private var popularPage = BehaviorRelay<Int>(value: 1)
     
-    init(movieRepository: MovieRepository, navigator: MainNavigator) {
-        self.movieRepository = movieRepository
+    init(navigator: MainNavigator, useCase: MainUseCase) {
+        self.useCase = useCase
         self.navigator = navigator
     }
     
@@ -32,7 +32,7 @@ final class MainViewModel: ViewModelType {
         let loadPopular = input.loaded
             .withLatestFrom(popularPageDriver)
             .flatMapLatest { page -> Driver<[Movie]> in
-                return self.movieRepository.getPopularMovie(input: PopularMovieRequest(page: page))
+                return self.useCase.getPopularMovie(page: page)
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
@@ -45,7 +45,7 @@ final class MainViewModel: ViewModelType {
         let loadUpcomming = input.loaded
             .withLatestFrom(upcommingPageDriver)
             .flatMapLatest { page -> Driver<[Movie]> in
-                return self.movieRepository.getUpcommingMovie(input: UpcommingMovieRequest(page: page))
+                return self.useCase.getUpcommingMovie(page: page)
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
@@ -77,7 +77,7 @@ final class MainViewModel: ViewModelType {
             .throttle(1)
             .flatMapLatest { _ -> Driver<[Movie]> in
                 self.popularPage.accept(self.popularPage.value + 1)
-                return self.movieRepository.getPopularMovie(input: PopularMovieRequest(page: self.popularPage.value))
+                return self.useCase.getPopularMovie(page: self.popularPage.value)
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriver(onErrorJustReturn: [])
@@ -94,7 +94,7 @@ final class MainViewModel: ViewModelType {
             .throttle(1)
             .flatMapLatest { _ -> Driver<[Movie]> in
                 self.upcommingPage.accept(self.upcommingPage.value + 1)
-                return self.movieRepository.getUpcommingMovie(input: UpcommingMovieRequest(page: self.upcommingPage.value))
+                return self.useCase.getUpcommingMovie(page: self.upcommingPage.value)
                     .trackActivity(activityIndicator)
                     .trackError(errorTracker)
                     .asDriver(onErrorJustReturn: [])
