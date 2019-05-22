@@ -24,24 +24,12 @@ extension AppViewModel: ViewModelType {
     
     func transform(input: Input) -> Output {
         let toScreen = input.loadTrigger
-            .map { _ in
-                self.useCase.checkIfFirstRun()
-            }
-            .do(onNext: { firstRun in
-                if firstRun {
-                    self.useCase.setDidInit()
-                }
-            })
-            .flatMap { _ -> Driver<Results<Genre>> in
+            .flatMapLatest {
                 return self.useCase.getObjects(fileName: RealmConstansts.favoriteGenres)
                     .asDriverOnErrorJustComplete()
             }
             .do(onNext: { (results) in
-                if !results.isEmpty {
-                    self.navigator.toMain()
-                } else {
-                    self.navigator.toGettingStarted()
-                }
+                !results.isEmpty ? self.navigator.toMain() : self.navigator.toGettingStarted()
             })
             .mapToVoid()
         

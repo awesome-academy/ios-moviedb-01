@@ -29,14 +29,14 @@ final class MovieDisplayCell: UICollectionViewCell, NibReusable {
         }
     }
     
-    func setContent(movie: Movie) {
-        titleLabel.text = movie.title
-        ratingLabel.text = "\(movie.voteAverage)/10"
+    func bind(viewModel: MovieDisplayItemViewModel) {
+        titleLabel.text = viewModel.title
+        ratingLabel.text = "\(viewModel.voteAverage ?? 0)/10"
         let processor = DownsamplingImageProcessor(size: posterImageView.frame.size)
             >> RoundCornerImageProcessor(cornerRadius: 10)
         posterImageView.do {
             $0.kf.indicatorType = .activity
-            $0.kf.setImage(with: URL(string: "\(URLs.posterApi)\(movie.posterPath)"), placeholder: UIImage(named: "img_placeholder"), options: [.cacheOriginalImage, .processor(processor)])
+            $0.kf.setImage(with: URL(string: "\(URLs.posterApi)\(viewModel.posterPath ?? "")"), placeholder: UIImage(named: "img_placeholder"), options: [.cacheOriginalImage, .processor(processor)])
         }
     }
 }

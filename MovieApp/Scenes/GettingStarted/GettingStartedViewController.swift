@@ -20,6 +20,11 @@ final class GettingStartedViewController: UIViewController, AlertViewController,
         configView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     private func configView() {
         let gradientBackground = CAGradientLayer().then {
             $0.frame = view.bounds

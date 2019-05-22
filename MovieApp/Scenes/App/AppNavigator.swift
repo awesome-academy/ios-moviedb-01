@@ -16,8 +16,10 @@ struct AppNavigatorImpl: AppNavigator {
     unowned let window: UIWindow
     
     func toGettingStarted() {
-        let gettingStartedVC: GettingStartedViewController = assembler.resolve()
-        window.rootViewController = gettingStartedVC
+        let nav = UINavigationController()
+        let vc: GettingStartedViewController = assembler.resolve()
+        nav.pushViewController(vc, animated: true)
+        window.rootViewController = nav
     }
     
     func toMain() {

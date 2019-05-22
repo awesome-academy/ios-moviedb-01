@@ -67,7 +67,7 @@ final class MainViewController: UIViewController, AlertViewController, BindableT
             .drive(collectionView.rx.items) { cv, index, movie in                
                 let indexPath = IndexPath(row: index, section: 0)
                 let cell: MovieDisplayCell = cv.dequeueReusableCell(for: indexPath)
-                cell.setContent(movie: movie)
+                cell.bind(viewModel: MovieDisplayItemViewModel(movie: movie))
                 return cell
             }
             .disposed(by: disposeBag)
@@ -76,7 +76,7 @@ final class MainViewController: UIViewController, AlertViewController, BindableT
             .drive(upcommingCollectionView.rx.items) { cv, index, movie in
                 let indexPath = IndexPath(row: index, section: 0)
                 let cell: MovieDisplayCell = cv.dequeueReusableCell(for: indexPath)
-                cell.setContent(movie: movie)
+                cell.bind(viewModel: MovieDisplayItemViewModel(movie: movie))
                 return cell
             }
             .disposed(by: disposeBag)

@@ -31,6 +31,14 @@ final class MovieDetailViewModel: ViewModelType {
                     .asDriverOnErrorJustComplete()
             }
         
+        let titleMovie = movieDetail.map { $0.title }
+        
+        let voteAverage = movieDetail.map { "\($0.voteAverage)/10" }
+        
+        let movieOverview = movieDetail.map { $0.overview }
+        
+        let backgroundImage = movieDetail.map { URL(string: URLs.posterApi + $0.posterPath ) }
+        
         let cast = input.loadTrigger
             .flatMapLatest { _ in
                 return self.useCase.getCastList(movieId: self.movie.id)
@@ -53,12 +61,12 @@ final class MovieDetailViewModel: ViewModelType {
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
             }
-            .flatMap { movies -> Driver<Bool> in
+            .map { movies -> Bool in
                 let likedMovie = movies.first { $0.id == self.movie.id }
                 if let likedMovie = likedMovie {
-                    return Driver.just(likedMovie.liked)
+                    return likedMovie.liked
                 } else {
-                    return Driver.just(false)
+                    return false
                 }
             }
         
@@ -68,7 +76,7 @@ final class MovieDetailViewModel: ViewModelType {
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
             }
-            .flatMap { movies -> Driver<Void> in
+            .flatMapLatest { movies -> Driver<Void> in
                 let likedMovie = movies.first { $0.id == self.movie.id }
                 if let likedMovie = likedMovie {
                     return self.useCase.updateObject(fileName: RealmConstansts.likedMovies) {
@@ -99,15 +107,19 @@ final class MovieDetailViewModel: ViewModelType {
             })
             .mapToVoid()
     
-        return Output(movieDetail: movieDetail,
-                      cast: cast,
-                      trailer: trailer,
-                      actorSelected: actorSelected,
-                      likeTapped: likeTapped,
-                      liked: liked,
-                      backTapped: backTapped,
-                      error: errorTracker.asDriver(),
-                      indicator: activityIndicator.asDriver())
+        return Output(
+            titleMovie: titleMovie,
+            voteAverage: voteAverage,
+            movieOverview: movieOverview,
+            backgroundImage: backgroundImage,
+            cast: cast,
+            trailer: trailer,
+            actorSelected: actorSelected,
+            likeTapped: likeTapped,
+            liked: liked,
+            backTapped: backTapped,
+            error: errorTracker.asDriver(),
+            indicator: activityIndicator.asDriver())
     }
 }
 
@@ -120,7 +132,10 @@ extension MovieDetailViewModel {
     }
     
     struct Output {
-        let movieDetail: Driver<MovieDetail>
+        let titleMovie: Driver<String>
+        let voteAverage: Driver<String>
+        let movieOverview: Driver<String>
+        let backgroundImage: Driver<URL?>
         let cast: Driver<[Cast]>
         let trailer: Driver<[Video]>
         let actorSelected: Driver<Void>

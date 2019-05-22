@@ -52,9 +52,7 @@ final class GettingStartedViewModel: ViewModelType {
             }
         
         let doneButton = input.doneButtonTrigger
-            .withLatestFrom(selectedGenres.asDriver()) { _, genres in
-                return genres
-            }
+            .withLatestFrom(selectedGenres.asDriver())
             .flatMap { genres -> Driver<Void> in
                 genres.forEach {
                     $0.selected = true

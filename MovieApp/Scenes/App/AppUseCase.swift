@@ -9,8 +9,6 @@
 import RealmSwift
 
 protocol AppUseCase {
-    func checkIfFirstRun() -> Bool
-    func setDidInit()
     func getObjects(fileName: String) -> Observable<Results<Genre>>
 }
 
@@ -19,13 +17,5 @@ struct AppUseCaseImpl: AppUseCase {
     
     func getObjects(fileName: String) -> Observable<Results<Genre>> {
         return realm.getObjects(fileName: fileName, objType: Genre.self)
-    }
-    
-    func checkIfFirstRun() -> Bool {
-        return !AppSettings.didInit
-    }
-    
-    func setDidInit() {
-        AppSettings.didInit = true
     }
 }

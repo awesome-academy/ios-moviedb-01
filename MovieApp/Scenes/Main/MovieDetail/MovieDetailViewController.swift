@@ -69,10 +69,6 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
                                                backTrigger: backButton.rx.tap.asDriver())
         let output = viewModel.transform(input: input)
         
-        output.movieDetail
-            .drive(movieDetailBinding)
-            .disposed(by: disposeBag)
-        
         output.cast
             .drive(mainActorCollectionView.rx.items) { collectionView, index, cast in
                 let indexPath = IndexPath(row: index, section: 0)
@@ -80,6 +76,22 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
                 cell.bind(viewModel: ActorItemViewModel(cast: cast))
                 return cell
             }
+            .disposed(by: disposeBag)
+        
+        output.backgroundImage
+            .drive(backgroundImage)
+            .disposed(by: disposeBag)
+        
+        output.titleMovie
+            .drive(titleMovieLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.voteAverage
+            .drive(ratingLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        output.movieOverview
+            .drive(overviewLabel.rx.text)
             .disposed(by: disposeBag)
         
         output.liked
@@ -113,9 +125,7 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
     
     var loadTrailer: Binder<[Video]> {
         return Binder(self) { (viewController, videos) in
-            guard !videos.isEmpty else {
-                return
-            }
+            guard !videos.isEmpty else { return }
             if let url = URL(string: URLs.youtubeEmbed + "/\(videos[0].key)") {
                 let request = URLRequest(url: url)
                 viewController.do {
@@ -127,7 +137,10 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
     
     var likeButtonTapped: Binder<Void> {
         return Binder(self) { (viewController, _) in
-            viewController.toggleLikeButton()
+            let currentImage = viewController.likeButton.currentImage == UIImage(named: "ic_like") ?
+                UIImage(named: "ic_unlike") :
+                UIImage(named: "ic_like")
+            viewController.likeButton.setImage(currentImage, for: .normal)
         }
     }
     
@@ -138,32 +151,18 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
         }
     }
     
-    var movieDetailBinding: Binder<MovieDetail> {
-        return Binder(self) { (viewController, movieDetail) in
-            viewController.do {
-                $0.titleMovieLabel.text = movieDetail.title
-                $0.ratingLabel.text = "\(movieDetail.voteAverage)/10"
-                $0.overviewLabel.text = movieDetail.overview
-            }
-            let backgroudImagePath = movieDetail.posterPath
-            if let url = URL(string: URLs.posterApi + backgroudImagePath) {
-                KingfisherManager.shared.retrieveImage(with: url, completionHandler: { (result) in
-                    switch result {
-                    case .success(let value):
-                        viewController.view.backgroundColor = UIColor(patternImage: value.image)
-                    case .failure(let error):
-                        viewController.showErrorAlert(message: error.errorDescription)
-                    }
-                })
-            }
+    var backgroundImage: Binder<URL?> {
+        return Binder(self) { (vc, url) in
+            guard let url = url else { return }
+            KingfisherManager.shared.retrieveImage(with: url, completionHandler: { (result) in
+                switch result {
+                case .success(let value):
+                    vc.view.backgroundColor = UIColor(patternImage: value.image)
+                case .failure(let error):
+                    vc.showErrorAlert(message: error.errorDescription)
+                }
+            })
         }
-    }
-    
-    private func toggleLikeButton() {
-        let currentImage = likeButton.currentImage == UIImage(named: "ic_like") ?
-            UIImage(named: "ic_unlike") :
-            UIImage(named: "ic_like")
-        likeButton.setImage(currentImage, for: .normal)
     }
 }
 
