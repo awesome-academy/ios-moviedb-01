@@ -10,4 +10,5 @@ import Foundation
 
 enum RealmConstansts {
     static let favoriteGenres = "FavoriteGenres.realm"
+    static let recentlyWatchedMovies = "RecentlyWatched.realm"
 }
