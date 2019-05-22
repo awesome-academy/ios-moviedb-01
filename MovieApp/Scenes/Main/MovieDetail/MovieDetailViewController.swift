@@ -121,6 +121,10 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
         output.error
             .drive(errorBinding)
             .disposed(by: disposeBag)
+        
+        output.constraintUpdate
+            .drive(updateConstraint)
+            .disposed(by: disposeBag)
     }
     
     var loadTrailer: Binder<[Video]> {
@@ -131,6 +135,14 @@ final class MovieDetailViewController: UIViewController, AlertViewController, Bi
                 viewController.do {
                     $0.trailerWebView.load(request)
                 }
+            }
+        }
+    }
+    
+    var updateConstraint: Binder<Void> {
+        return Binder(self.contentView) { view, _ in
+            view.do {
+                $0.layoutIfNeeded()
             }
         }
     }

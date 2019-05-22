@@ -50,19 +50,21 @@ final class MainViewController: UIViewController, AlertViewController, BindableT
         }
         logoImageView.do {
             $0.layer.masksToBounds = true
-            $0.layer.cornerRadius = $0.layer.frame.width/2
+            $0.layer.cornerRadius = $0.layer.frame.width / 2
         }
     }
     
     func bindViewModel() {
-        let input =  MainViewModel.Input(popularLoadMoreTrigger: popularLoadMoreTrigger.asDriverOnErrorJustComplete(),
-                                         upcommingLoadMoreTrigger: upcommingLoadMoreTrigger.asDriverOnErrorJustComplete(),
+        let input = MainViewModel.Input(popularLoadMoreTrigger: popularLoadMoreTrigger
+                                            .asDriverOnErrorJustComplete(),
+                                         upcommingLoadMoreTrigger: upcommingLoadMoreTrigger
+                                            .asDriverOnErrorJustComplete(),
                                          popularSelectTrigger: collectionView.rx.itemSelected.asDriver(),
                                          upcommingSelectTrigger: upcommingCollectionView.rx.itemSelected.asDriver(),
                                          searchButtonTrigger: searchButton.rx.tap.asDriver(),
                                          homeExtensionButtonTrigger: homeExtensionButton.rx.tap.asDriver(),
                                          loaded: Driver.just(()))
-            let output = viewModel.transform(input: input)
+        let output = viewModel.transform(input: input)
         output.popularMovies
             .drive(collectionView.rx.items) { cv, index, movie in                
                 let indexPath = IndexPath(row: index, section: 0)
@@ -124,7 +126,7 @@ final class MainViewController: UIViewController, AlertViewController, BindableT
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
             let bottomEdge = scrollView.contentOffset.x + scrollView.frame.size.width
-            if (bottomEdge + LayoutOptions.offSet >= scrollView.contentSize.width) {
+            if (bottomEdge + LayoutOptions.offSet) >= scrollView.contentSize.width {
                 scrollView == collectionView ? popularLoadMoreTrigger.onNext(()) : upcommingLoadMoreTrigger.onNext(())
             }
     }

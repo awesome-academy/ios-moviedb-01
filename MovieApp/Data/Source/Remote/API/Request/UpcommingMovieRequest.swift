@@ -8,9 +8,7 @@
 
 final class UpcommingMovieRequest: BaseRequest {
     required init(page: Int) {
-        let body: [String: Any]  = [
-            "page": page,
-            ]
+        let body: [String: Any]  = ["page": page]
         super.init(url: URLs.upcomingMovieApi, requestType: .get, body: body)
     }
 }

@@ -7,8 +7,6 @@
 //
 
 import UIKit
-
-import UIKit
 import Reusable
 import Kingfisher
 
@@ -36,7 +34,9 @@ final class MovieDisplayCell: UICollectionViewCell, NibReusable {
             >> RoundCornerImageProcessor(cornerRadius: 10)
         posterImageView.do {
             $0.kf.indicatorType = .activity
-            $0.kf.setImage(with: URL(string: "\(URLs.posterApi)\(viewModel.posterPath ?? "")"), placeholder: UIImage(named: "img_placeholder"), options: [.cacheOriginalImage, .processor(processor)])
+            $0.kf.setImage(with: URL(string: "\(URLs.posterApi)\(viewModel.posterPath ?? "")"),
+                           placeholder: UIImage(named: "img_placeholder"),
+                           options: [.cacheOriginalImage, .processor(processor)])
         }
     }
 }

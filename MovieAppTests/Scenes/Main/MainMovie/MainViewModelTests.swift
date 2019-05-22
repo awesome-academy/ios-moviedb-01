@@ -37,12 +37,17 @@ final class MainViewModelTests: XCTestCase {
         viewModel = MainViewModel(navigator: navigator, useCase: useCase)
         
         input = MainViewModel.Input(popularLoadMoreTrigger: popularLoadMoreTrigger.asDriverOnErrorJustComplete(),
-                                    upcommingLoadMoreTrigger: upcommingLoadMoreTrigger.asDriverOnErrorJustComplete(),
-                                    popularSelectTrigger: popularSelectTrigger.asDriverOnErrorJustComplete(),
-                                    upcommingSelectTrigger: upcommingSelectTrigger.asDriverOnErrorJustComplete(),
+                                    upcommingLoadMoreTrigger: upcommingLoadMoreTrigger
+                                        .asDriverOnErrorJustComplete(),
+                                    popularSelectTrigger: popularSelectTrigger
+                                        .asDriverOnErrorJustComplete(),
+                                    upcommingSelectTrigger: upcommingSelectTrigger
+                                        .asDriverOnErrorJustComplete(),
                                     searchButtonTrigger: searchButtonTrigger.asDriverOnErrorJustComplete(),
-                                    homeExtensionButtonTrigger: homeExtensionButtonTrigger.asDriverOnErrorJustComplete(),
-                                    loaded: loaded.asDriverOnErrorJustComplete())
+                                    homeExtensionButtonTrigger: homeExtensionButtonTrigger
+                                        .asDriverOnErrorJustComplete(),
+                                    loaded: loaded
+                                        .asDriverOnErrorJustComplete())
         output = viewModel.transform(input: input)
         
         output.error.drive().disposed(by: disposeBag)

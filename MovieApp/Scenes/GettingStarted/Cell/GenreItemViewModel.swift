@@ -12,6 +12,9 @@ struct GenreItemViewModel {
     var title: String {
         return genre.name
     }
+    var selected: Bool {
+        return genre.selected
+    }
     
     init(genre: Genre) {
         self.genre = genre

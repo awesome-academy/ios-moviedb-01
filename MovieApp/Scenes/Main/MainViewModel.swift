@@ -60,7 +60,7 @@ final class MainViewModel: ViewModelType {
                 return movies[indexPath.row]
             }
             .do(onNext: { movie in
-                self.navigator.toDetailMovie(movie: movie)
+                self.navigator.toMovieDetail(movie: movie)
             })
             .mapToVoid()
         
@@ -69,7 +69,7 @@ final class MainViewModel: ViewModelType {
                 return movies[indexPath.row]
             }
             .do(onNext: { movie in
-                self.navigator.toDetailMovie(movie: movie)
+                self.navigator.toMovieDetail(movie: movie)
             })
             .mapToVoid()
         

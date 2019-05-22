@@ -1,18 +1,17 @@
 //
-//  MainNavigator.swift
+//  SearchMovieNavigator.swift
 //  MovieApp
 //
-//  Created by nguyen.nam.khanh on 5/16/19.
+//  Created by Phan Dinh Van on 5/21/19.
 //  Copyright © 2019 nguyen.nam.khanh. All rights reserved.
 //
 
-protocol MainNavigator {
-    func toSearch()
+protocol SearchMovieNavigator {
     func toMovieDetail(movie: Movie)
-    func toHomeExtension()
+    func toBack()
 }
 
-final class DefaultMainNavigator: MainNavigator {
+final class DefaultSearchMovieNavigator: SearchMovieNavigator {
     private unowned let navigationController: UINavigationController
     private unowned let assembler: Assembler
     
@@ -21,17 +20,13 @@ final class DefaultMainNavigator: MainNavigator {
         self.assembler = assembler
     }
     
-    func toSearch() {
-        let vc: SearchMovieViewController = assembler.resolve(navigationController: navigationController)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
     func toMovieDetail(movie: Movie) {
         let vc: MovieDetailViewController = assembler.resolve(navigationController: navigationController,
                                                               movie: movie)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func toHomeExtension() {
+    func toBack() {
+        navigationController.popViewController(animated: true)
     }
 }

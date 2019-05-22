@@ -8,11 +8,18 @@
 
 import UIKit
 
-final class GettingStartedGenreCell: UICollectionViewCell, NibReusable {
+final class GenreCell: UICollectionViewCell, NibReusable {
     @IBOutlet private weak var genreTitleLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.do {
+            $0.backgroundColor = .clear
+        }
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
         self.do {
             $0.backgroundColor = .clear
         }
@@ -30,6 +37,12 @@ final class GettingStartedGenreCell: UICollectionViewCell, NibReusable {
     
     func bind(viewModel: GenreItemViewModel) {
         genreTitleLabel.text = viewModel.title
+    }
+    
+    func updateCell(isSelected: Bool) {
+        self.do {
+            $0.backgroundColor = isSelected ? .gray : .clear
+        }
     }
     
     func toggleState() {

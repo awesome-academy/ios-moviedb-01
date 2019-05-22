@@ -14,6 +14,7 @@ final class GettingStartedViewController: UIViewController, AlertViewController,
     
     private let disposeBag = DisposeBag()
     var viewModel: GettingStartedViewModel!
+    private let selectedGenres = BehaviorRelay<[Genre]>(value: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,14 +29,13 @@ final class GettingStartedViewController: UIViewController, AlertViewController,
     private func configView() {
         let gradientBackground = CAGradientLayer().then {
             $0.frame = view.bounds
-            $0.colors = UIColor.gradientGettingStartedBackground
+            $0.colors = UIColor.gradientBackground
         }
-        
         view.do {
             $0.layer.insertSublayer(gradientBackground, at: 0)
         }
         genreListCollectionView.do {
-            $0.register(cellType: GettingStartedGenreCell.self)
+            $0.register(cellType: GenreCell.self)
             $0.rx.setDelegate(self).disposed(by: disposeBag)
         }
         doneButton.do {
@@ -53,8 +53,9 @@ final class GettingStartedViewController: UIViewController, AlertViewController,
         output.genres
             .drive(genreListCollectionView.rx.items) { collectionView, index, genre in
                 let indexPath = IndexPath(row: index, section: 0)
-                let cell: GettingStartedGenreCell = collectionView.dequeueReusableCell(for: indexPath)
+                let cell: GenreCell = collectionView.dequeueReusableCell(for: indexPath)
                 cell.bind(viewModel: GenreItemViewModel(genre: genre))
+                cell.updateCell(isSelected: self.selectedGenres.value[indexPath.row].selected)
                 return cell
             }
             .disposed(by: disposeBag)
@@ -65,6 +66,10 @@ final class GettingStartedViewController: UIViewController, AlertViewController,
         
         output.doneButton
             .drive()
+            .disposed(by: disposeBag)
+        
+        output.selectedGenres
+            .drive(selectGenres)
             .disposed(by: disposeBag)
         
         output.isDoneButtonEnabled
@@ -83,9 +88,15 @@ final class GettingStartedViewController: UIViewController, AlertViewController,
     var selectCellBinding: Binder<IndexPath> {
         return Binder(self.genreListCollectionView) { (collectionView, indexPath) in
             collectionView.deselectItem(at: indexPath, animated: false)
-            if let cell = self.genreListCollectionView.cellForItem(at: indexPath) as? GettingStartedGenreCell {
+            if let cell = collectionView.cellForItem(at: indexPath) as? GenreCell {
                 cell.toggleState()
             }
+        }
+    }
+    
+    var selectGenres: Binder<[Genre]> {
+        return Binder(self) { vc, selectedGenres in
+            vc.selectedGenres.accept(selectedGenres)
         }
     }
 }

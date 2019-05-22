@@ -13,11 +13,11 @@ final class MovieDetailTests: XCTestCase {
     func test_mapping() {
         let json: [String: Any] = [
             "backdrop_path": "/fCayJrkfRaCRCTh8GqN30f8oyQF.jpg",
-            "overview": "A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground \"fight clubs\" forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion.",
+            "overview": "A ticking-time-bomb insomniac and a slippery soap salesman channel",
             "title": "Fight Club",
             "vote_average": 7.8,
             "id": 550,
-            "poster_path": "",
+            "poster_path": ""
         ]
         let movieDetail = MovieDetail(JSON: json)
         

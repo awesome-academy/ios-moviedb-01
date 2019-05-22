@@ -20,11 +20,11 @@ protocol RealmRepository {
 final class RealmRepositoryImpl: RealmRepository {
     private let database = Database.share
     
-    func getObjects<T>(fileName: String, objType: T.Type) -> Observable<Results<T>> where T : Object {
+    func getObjects<T: Object>(fileName: String, objType: T.Type) -> Observable<Results<T>> {
         return database.getObjects(fileName: fileName, objType: objType)
     }
     
-    func deleteObject<T>(fileName: String, object: T) -> Observable<Void> where T : Object {
+    func deleteObject<T: Object>(fileName: String, object: T) -> Observable<Void> {
         return database.deleteObject(fileName: fileName, object: object)
     }
     
@@ -32,7 +32,7 @@ final class RealmRepositoryImpl: RealmRepository {
         return database.deleteAll(fileName: fileName)
     }
     
-    func saveObject<T>(fileName: String, object: T) -> Observable<Void> where T : Object {
+    func saveObject<T: Object>(fileName: String, object: T) -> Observable<Void> {
         return database.saveObject(fileName: fileName, object: object)
     }
     

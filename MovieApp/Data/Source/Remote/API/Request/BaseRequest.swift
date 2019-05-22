@@ -6,7 +6,6 @@
 //  Copyright © 2019 nguyen.nam.khanh. All rights reserved.
 //
 
-import Foundation
 import Alamofire
 
 class BaseRequest: NSObject {

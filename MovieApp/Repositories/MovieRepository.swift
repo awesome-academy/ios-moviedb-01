@@ -12,6 +12,8 @@ protocol MovieRepository {
     func getMovieDetail(input: MovieDetailRequest) -> Observable<MovieDetail>
     func getCastList(input: CastListRequest) -> Observable<[Cast]>
     func getVideoList(input: VideoListRequest) -> Observable<[Video]>
+    func searchMovie(input: SearchMovieRequest) -> Observable<([Movie], Int)>
+    func discoverMovie(input: DiscoverMovieRequest) -> Observable<([Movie], Int)>
 }
 
 final class MovieRepositoryImpl: MovieRepository {
@@ -49,6 +51,20 @@ final class MovieRepositoryImpl: MovieRepository {
         return api.request(input: input)
             .map({ (response: VideoListResponse) -> [Video] in
                 return response.videos
+            })
+    }
+    
+    func searchMovie(input: SearchMovieRequest) -> Observable<([Movie], Int)> {
+        return api.request(input: input)
+            .map({ (response: MovieResultResponse) -> ([Movie], Int) in
+                return (response.movies, response.totalPages)
+            })
+    }
+    
+    func discoverMovie(input: DiscoverMovieRequest) -> Observable<([Movie], Int)> {
+        return api.request(input: input)
+            .map({ (response: MovieResultResponse) -> ([Movie], Int) in
+                return (response.movies, response.totalPages)
             })
     }
 }

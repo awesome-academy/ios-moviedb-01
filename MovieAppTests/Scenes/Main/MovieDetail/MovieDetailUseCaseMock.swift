@@ -61,7 +61,7 @@ final class MovieDetailUseCaseMock: MovieDetailUseCase {
     var getVideoListCalled = false
     
     var getVideoListReturnValue: Observable<[Video]> = {
-        let items:[Video] = [Video()]
+        let items = [Video()]
         return Observable.just(items)
     }()
     
