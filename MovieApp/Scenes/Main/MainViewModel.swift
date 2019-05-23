@@ -112,7 +112,7 @@ final class MainViewModel: ViewModelType {
             .mapToVoid()
         
         let homeExtensionAction = input.homeExtensionButtonTrigger
-            .do(onNext: { self.navigator.toExtensionHome() })
+            .do(onNext: { self.navigator.toHomeExtension() })
             .mapToVoid()
         
         return Output(error: errorTracker.asDriver(),

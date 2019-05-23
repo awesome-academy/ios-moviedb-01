@@ -1,11 +1,12 @@
 PODS:
   - Alamofire (4.8.2)
   - Kingfisher (5.4.0)
-  - MGArchitecture (0.4.3):
-    - RxAtomic (~> 4.4)
-    - RxCocoa (~> 4.4)
-    - RxSwift (~> 4.4)
+  - MGArchitecture (0.3.2):
+    - OrderedSet (~> 3.0)
+    - RxCocoa (~> 4.3)
+    - RxSwift (~> 4.3)
   - ObjectMapper (3.4.2)
+  - OrderedSet (3.1.0)
   - Realm (3.15.0):
     - Realm/Headers (= 3.15.0)
   - Realm/Headers (3.15.0)
@@ -16,7 +17,6 @@ PODS:
     - Reusable/View (= 4.1.0)
   - Reusable/Storyboard (4.1.0)
   - Reusable/View (4.1.0)
-  - RxAtomic (4.4.2)
   - RxBlocking (4.5.0):
     - RxSwift (>= 4.4.2, ~> 4.4)
   - RxCocoa (4.5.0):
@@ -29,7 +29,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Kingfisher
-  - MGArchitecture
+  - MGArchitecture (~> 0.3.0)
   - ObjectMapper
   - RealmSwift
   - Reusable
@@ -46,10 +46,10 @@ SPEC REPOS:
     - Kingfisher
     - MGArchitecture
     - ObjectMapper
+    - OrderedSet
     - Realm
     - RealmSwift
     - Reusable
-    - RxAtomic
     - RxBlocking
     - RxCocoa
     - RxSwift
@@ -60,12 +60,12 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   Kingfisher: 9c8f2cc6710334e06f32ba2b45e77707d5e2f0c9
-  MGArchitecture: a68f881bfa6bd80310d31d81aeefb07a12bf3685
+  MGArchitecture: 035b438e272d7e2bce82e0a19dc409499c1f868d
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
+  OrderedSet: 489d84c7469d5aa7658c78f66259c87d878a2dfb
   Realm: 9b834e1be6062f544805252c812348872dc5d4ed
   RealmSwift: 8a41886f8ab6efef9eb8df97de2f2bb911561a79
   Reusable: 82be188f29d96dc5eff0db7b2393bcc08d2cdd5b
-  RxAtomic: d00e97c10db88c6f08540e0bf2752fc5a2404167
   RxBlocking: 79413e4d916f44bb3e113c5b2cc059e36fe58910
   RxCocoa: cbf70265dc65a981d4ac982e513c10cf23df24a0
   RxSwift: f172070dfd1a93d70a9ab97a5a01166206e1c575
@@ -73,6 +73,6 @@ SPEC CHECKSUMS:
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   Then: 71866660c7af35a7343831f7668e7cd2b62ee0f2
 
-PODFILE CHECKSUM: 356bcd7ab2844f776807e50aa04f6eef8892f649
+PODFILE CHECKSUM: 719e467ae307f76989ac12fd626f93506e045d15
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.6.1
