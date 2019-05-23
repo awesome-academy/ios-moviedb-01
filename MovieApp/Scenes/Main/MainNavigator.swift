@@ -9,7 +9,7 @@
 protocol MainNavigator {
     func toSearch()
     func toDetailMovie(movie: Movie)
-    func toExtensionHome()
+    func toHomeExtension()
 }
 
 final class DefaultMainNavigator: MainNavigator {
@@ -30,6 +30,6 @@ final class DefaultMainNavigator: MainNavigator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func toExtensionHome() {
+    func toHomeExtension() {
     }
 }

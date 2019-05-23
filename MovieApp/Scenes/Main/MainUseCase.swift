@@ -9,7 +9,6 @@
 protocol MainUseCase {
     func getUpcommingMovie(page: Int) -> Observable<[Movie]>
     func getPopularMovie(page: Int) -> Observable<[Movie]>
-    func findMovie(id: String) -> Observable<Movie>
 }
 
 struct MainUseCaseImpl: MainUseCase {
@@ -21,9 +20,5 @@ struct MainUseCaseImpl: MainUseCase {
     
     func getPopularMovie(page: Int) -> Observable<[Movie]> {
         return repository.getPopularMovie(input: PopularMovieRequest(page: page))
-    }
-    
-    func findMovie(id: String) -> Observable<Movie> {
-        return repository.findMovie(input: FindMovieRequest(id: id))
     }
 }

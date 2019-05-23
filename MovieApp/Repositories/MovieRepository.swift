@@ -9,7 +9,6 @@
 protocol MovieRepository {
     func getUpcommingMovie(input: UpcommingMovieRequest) -> Observable<[Movie]>
     func getPopularMovie(input: PopularMovieRequest) -> Observable<[Movie]>
-    func findMovie(input: FindMovieRequest) -> Observable<Movie>
     func getMovieDetail(input: MovieDetailRequest) -> Observable<MovieDetail>
     func getCastList(input: CastListRequest) -> Observable<[Cast]>
     func getVideoList(input: VideoListRequest) -> Observable<[Video]>
@@ -29,14 +28,6 @@ final class MovieRepositoryImpl: MovieRepository {
         return api.request(input: input)
             .map({ (response: PopularMovieResponse) -> [Movie] in
                 return response.movies
-            })
-    }
-    
-    func findMovie(input: FindMovieRequest) -> Observable<Movie> {
-        return api.request(input: input)
-            .map({ (response: FindMovieResponse) -> Movie in
-                guard let response = response.movie else { return Movie() }
-                return response
             })
     }
     
