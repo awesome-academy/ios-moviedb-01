@@ -11,6 +11,7 @@ protocol Assembler: class,
     GettingStartedAssembler,
     MovieDetailAssembler,
     MainAssembler,
+    SearchMovieAssembler,
     AppAssembler {
 }
 

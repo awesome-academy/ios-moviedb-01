@@ -10,17 +10,17 @@ import XCTest
 import RxSwift
 @testable import MovieApp
 
-class MainUseCaseMock: MainUseCase {
+final class MainUseCaseMock: MainUseCase {
     var getUpcommingMovieListCalled = false
     var getPopularMovieListCalled = false
     
     var getUpcommingMovieReturnValue: Observable<[Movie]> = {
-        let items = [Movie().with { $0.id = 1}]
+        let items = [Movie().with { $0.id = 1 }]
         return Observable.just(items)
     }()
     
     var getPopularMovieReturnValue: Observable<[Movie]> = {
-        let items = [Movie().with { $0.id = 1}]
+        let items = [Movie().with { $0.id = 1 }]
         return Observable.just(items)
     }()
     

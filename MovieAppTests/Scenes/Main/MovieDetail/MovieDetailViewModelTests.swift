@@ -62,7 +62,7 @@ final class MovieDetailViewModelTests: XCTestCase {
         loadTrigger.onNext(())
         let titleMovie = try? output.titleMovie.toBlocking(timeout: 1).first()
         let movieOverview = try? output.movieOverview.toBlocking(timeout: 1).first()
-        let voteAverage =  try? output.voteAverage.toBlocking(timeout: 1).first()
+        let voteAverage = try? output.voteAverage.toBlocking(timeout: 1).first()
         let backgroundImage = try? output.backgroundImage.toBlocking(timeout: 1).first()
         let cast = try? output.cast.toBlocking(timeout: 1).first()
         let trailer = try? output.trailer.toBlocking(timeout: 1).first()
@@ -131,8 +131,10 @@ final class MovieDetailViewModelTests: XCTestCase {
     }
     
     func test_likeTriggerInvoked_getObjects_updateObject() {
-        let movies = try? useCase.getObjects(fileName: RealmConstansts.likedMovies)
-            .toBlocking(timeout: 1).first()
+        let movies = try? useCase
+            .getObjects(fileName: RealmConstansts.likedMovies)
+            .toBlocking(timeout: 1)
+            .first()
         if let movies = movies, let movie = movies?.first {
             viewModel.movie = movie
         }

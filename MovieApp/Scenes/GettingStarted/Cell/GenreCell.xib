@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GenreCell" customModule="MovieApp" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GenreCell" id="2BO-BV-A1Q" customClass="GenreCell" customModule="MovieApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="81" height="64"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="81" height="64"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ebx-eu-kAA">
+                        <rect key="frame" x="0.0" y="0.0" width="81" height="64"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRL-jo-7gO">
+                                <rect key="frame" x="10" y="21.5" width="61" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="MRL-jo-7gO" firstAttribute="centerY" secondItem="ebx-eu-kAA" secondAttribute="centerY" id="2ak-FA-ng2"/>
+                            <constraint firstItem="MRL-jo-7gO" firstAttribute="centerX" secondItem="ebx-eu-kAA" secondAttribute="centerX" id="DH2-7S-y9R"/>
+                            <constraint firstAttribute="trailing" secondItem="MRL-jo-7gO" secondAttribute="trailing" priority="500" constant="10" id="GVz-5R-7Wm"/>
+                            <constraint firstItem="MRL-jo-7gO" firstAttribute="leading" secondItem="ebx-eu-kAA" secondAttribute="leading" priority="500" constant="10" id="sOx-fw-0pT"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="ebx-eu-kAA" firstAttribute="leading" secondItem="2BO-BV-A1Q" secondAttribute="leading" id="EOn-wu-Wgq"/>
+                <constraint firstAttribute="trailing" secondItem="ebx-eu-kAA" secondAttribute="trailing" id="mbv-D8-nUP"/>
+                <constraint firstItem="ebx-eu-kAA" firstAttribute="top" secondItem="2BO-BV-A1Q" secondAttribute="top" id="o8D-xI-Rhy"/>
+                <constraint firstAttribute="bottom" secondItem="ebx-eu-kAA" secondAttribute="bottom" id="yC8-Vw-gRR"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="kOp-1r-Gcs"/>
+            <size key="customSize" width="81" height="64"/>
+            <connections>
+                <outlet property="genreTitleLabel" destination="MRL-jo-7gO" id="pAY-eL-0L5"/>
+            </connections>
+            <point key="canvasLocation" x="-93.478260869565219" y="-61.607142857142854"/>
+        </collectionViewCell>
+    </objects>
+</document>

@@ -29,19 +29,14 @@ final class GettingStartedViewModel: ViewModelType {
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
             }
+            .do(onNext: { genres in
+                self.selectedGenres.accept(genres)
+            })
         
         let selected = input.selectTrigger
-            .withLatestFrom(genres) { indexPath, genres -> IndexPath in
-               let seleted = genres[indexPath.row]
-                if self.selectedGenres.value.contains(seleted) {
-                    var value = self.selectedGenres.value
-                    value.removeAll { $0.name == seleted.name }
-                    self.selectedGenres.accept(value)
-                } else {
-                    var value = self.selectedGenres.value
-                    value.append(seleted)
-                    self.selectedGenres.accept(value)
-                }
+            .withLatestFrom(selectedGenres.asDriver()) { indexPath, genres -> IndexPath in
+                genres[indexPath.row].selected = !genres[indexPath.row].selected
+                self.selectedGenres.accept(genres)
                 return indexPath
             }
             .asDriver(onErrorJustReturn: IndexPath())
@@ -54,9 +49,6 @@ final class GettingStartedViewModel: ViewModelType {
         let doneButton = input.doneButtonTrigger
             .withLatestFrom(selectedGenres.asDriver())
             .flatMap { genres -> Driver<Void> in
-                genres.forEach {
-                    $0.selected = true
-                }
                 return self.useCase.saveObjects(objects: genres)
                     .trackError(errorTracker)
                     .asDriverOnErrorJustComplete()
@@ -67,6 +59,7 @@ final class GettingStartedViewModel: ViewModelType {
         
         return Output(genres: genres,
                       selected: selected,
+                      selectedGenres: selectedGenres.asDriver(),
                       doneButton: doneButton,
                       isDoneButtonEnabled: isDoneButtonEnabled,
                       error: errorTracker.asDriver(),
@@ -84,6 +77,7 @@ extension GettingStartedViewModel {
     struct Output {
         let genres: Driver<[Genre]>
         let selected: Driver<IndexPath>
+        let selectedGenres: Driver<[Genre]>
         let doneButton: Driver<Void>
         let isDoneButtonEnabled: Driver<Bool>
         let error: Driver<Error>

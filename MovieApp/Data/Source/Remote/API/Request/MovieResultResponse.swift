@@ -1,21 +1,22 @@
 //
-//  PopularMovieResponse.swift
+//  MovieResultResponse.swift
 //  MovieApp
 //
-//  Created by nguyen.nam.khanh on 5/16/19.
+//  Created by Phan Dinh Van on 5/23/19.
 //  Copyright © 2019 nguyen.nam.khanh. All rights reserved.
 //
 
 import ObjectMapper
 
-final class PopularMovieResponse: Mappable {
+final class MovieResultResponse: Mappable {
+    var totalPages = 0
     var movies = [Movie]()
     
     required init(map: Map) {
-        mapping(map: map)
     }
     
     func mapping(map: Map) {
+        totalPages <- map["total_pages"]
         movies <- map["results"]
     }
 }

@@ -106,6 +106,11 @@ final class MovieDetailViewModel: ViewModelType {
                 self.navigator.back()
             })
             .mapToVoid()
+        
+        let constraintUpdate = Observable.of(titleMovie.mapToVoid().asObservable(),
+                                              movieOverview.mapToVoid().asObservable())
+            .merge()
+            .asDriverOnErrorJustComplete()
     
         return Output(
             titleMovie: titleMovie,
@@ -118,6 +123,7 @@ final class MovieDetailViewModel: ViewModelType {
             likeTapped: likeTapped,
             liked: liked,
             backTapped: backTapped,
+            constraintUpdate: constraintUpdate,
             error: errorTracker.asDriver(),
             indicator: activityIndicator.asDriver())
     }
@@ -142,6 +148,7 @@ extension MovieDetailViewModel {
         let likeTapped: Driver<Void>
         let liked: Driver<Bool>
         let backTapped: Driver<Void>
+        let constraintUpdate: Driver<Void>
         let error: Driver<Error>
         let indicator: Driver<Bool>
     }

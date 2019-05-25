@@ -8,9 +8,7 @@
 
 final class PopularMovieRequest: BaseRequest {
     required init(page: Int) {
-        let body: [String: Any]  = [
-            "page": page,
-            ]
+        let body: [String: Any]  = ["page": page]
         super.init(url: URLs.popularMovieApi, requestType: .get, body: body)
     }
 }
